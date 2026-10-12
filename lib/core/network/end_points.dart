@@ -1,10 +1,12 @@
 class EndPoints {
   EndPoints._();
 
-  /// API Base URL (Can be overridden via --dart-define=BASE_URL=... for production/CI)
+  /// API Base URL
+  /// Injected via: flutter run --dart-define=BASE_URL=http://...
+  /// Or read locally from .env (ignored by git)
   static const String baseUrl = String.fromEnvironment(
     'BASE_URL',
-    defaultValue: 'http://130.110.99.157:8080',
+    defaultValue: 'http://localhost:8080',
   );
 
   /// Network timeout configurations
