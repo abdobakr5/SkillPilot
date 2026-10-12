@@ -1,0 +1,16 @@
+# Feature-first structure:
+# Each feature folder contains:
+# features/
+# └── <feature_name>/
+#     ├── data/
+#     │   ├── datasources/
+#     │   ├── models/
+#     │   └── repositories/
+#     ├── domain/
+#     │   ├── entities/
+#     │   ├── repositories/
+#     │   └── usecases/
+#     └── presentation/
+#         ├── cubit/ (or bloc/)
+#         ├── screens/
+#         └── widgets/
