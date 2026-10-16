@@ -1,4 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../utils/jwt_helper.dart';
 
 class SecureStorageHelper {
   final FlutterSecureStorage _storage;
@@ -12,6 +13,7 @@ class SecureStorageHelper {
   static const String keyAccessToken = 'ACCESS_TOKEN';
   static const String keyRefreshToken = 'REFRESH_TOKEN';
   static const String keyUserId = 'USER_ID';
+  static const String keyUserEmail = 'USER_EMAIL';
 
   /// Write a key-value pair securely
   Future<void> write({required String key, required String value}) async {
@@ -62,5 +64,30 @@ class SecureStorageHelper {
       delete(key: keyAccessToken),
       delete(key: keyRefreshToken),
     ]);
+  }
+
+  Future<void> saveUserEmail(String email) async {
+    await write(key: keyUserEmail, value: email);
+  }
+
+  Future<String?> getUserEmail() async {
+    final savedEmail = await read(key: keyUserEmail);
+    if (savedEmail != null &&
+        savedEmail.isNotEmpty &&
+        savedEmail.contains('@')) {
+      return savedEmail;
+    }
+
+    // Fallback: extract email claim from stored JWT access token
+    final token = await getAccessToken();
+    if (token != null && token.isNotEmpty) {
+      final emailFromJwt = JwtHelper.extractEmail(token);
+      if (emailFromJwt != null && emailFromJwt.isNotEmpty) {
+        await saveUserEmail(emailFromJwt);
+        return emailFromJwt;
+      }
+    }
+
+    return null;
   }
 }

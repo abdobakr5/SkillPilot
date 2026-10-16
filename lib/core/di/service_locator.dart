@@ -6,6 +6,12 @@ import '../network/api_consumer.dart';
 import '../network/app_interceptors.dart';
 import '../network/dio_consumer.dart';
 import '../network/end_points.dart';
+import '../../features/auth/data/datasources/auth_remote_data_source.dart';
+import '../../features/auth/data/repositories/auth_repository_impl.dart';
+import '../../features/auth/data/services/oauth_service.dart';
+import '../../features/auth/presentation/cubit/auth_cubit.dart';
+import '../../features/setup/data/datasources/profile_remote_data_source.dart';
+import '../services/deep_link_service.dart';
 
 final sl = GetIt.instance;
 
@@ -23,6 +29,11 @@ Future<void> initServiceLocator() async {
   // but registering a factory/singleton instance allows injecting it if desired.
   sl.registerLazySingleton<CacheHelper>(
     () => CacheHelper(),
+  );
+
+  // DeepLink Service for handling universal links and custom schemes
+  sl.registerLazySingleton<DeepLinkService>(
+    () => DeepLinkService(),
   );
 
   // ----------------------------------------------------
@@ -82,9 +93,32 @@ Future<void> initServiceLocator() async {
 }
 
 void _initFeatures() {
-  // Example for feature bootstrapping:
-  // sl.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSourceImpl(apiConsumer: sl()));
-  // sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(remoteDataSource: sl()));
-  // sl.registerLazySingleton<LoginUseCase>(() => LoginUseCase(repository: sl()));
-  // sl.registerFactory<AuthBloc>(() => AuthBloc(loginUseCase: sl()));
+  // ----------------------------------------------------
+  // Auth Feature Registrations
+  // ----------------------------------------------------
+  sl.registerLazySingleton<AuthRemoteDataSource>(
+    () => AuthRemoteDataSourceImpl(apiConsumer: sl<ApiConsumer>()),
+  );
+
+  sl.registerLazySingleton<AuthRepository>(
+    () => AuthRepositoryImpl(
+      remoteDataSource: sl<AuthRemoteDataSource>(),
+      secureStorageHelper: sl<SecureStorageHelper>(),
+    ),
+  );
+
+  sl.registerLazySingleton<OAuthService>(
+    () => OAuthService(),
+  );
+
+  sl.registerFactory<AuthCubit>(
+    () => AuthCubit(authRepository: sl<AuthRepository>()),
+  );
+
+  // ----------------------------------------------------
+  // Profile & Onboarding Feature Registrations
+  // ----------------------------------------------------
+  sl.registerLazySingleton<ProfileRemoteDataSource>(
+    () => ProfileRemoteDataSourceImpl(apiConsumer: sl<ApiConsumer>()),
+  );
 }

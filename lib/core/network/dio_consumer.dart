@@ -140,15 +140,19 @@ class DioConsumer implements ApiConsumer {
           final statusCode = response.statusCode;
           final responseData = response.data;
 
-          if (statusCode == HttpStatus.unauthorized) {
+          if (responseData is Map<String, dynamic>) {
+            final errorModel = ErrorModel.fromJson(responseData);
+            if (statusCode == HttpStatus.unauthorized) {
+              throw UnauthorizedException(
+                message: errorModel.errorMessage,
+              );
+            }
+            throw ServerException(
+              errorModel: errorModel,
+            );
+          } else if (statusCode == HttpStatus.unauthorized) {
             throw const UnauthorizedException(
               message: 'Unauthorized access. Please login again.',
-            );
-          }
-
-          if (responseData is Map<String, dynamic>) {
-            throw ServerException(
-              errorModel: ErrorModel.fromJson(responseData),
             );
           } else if (responseData is String && responseData.isNotEmpty) {
             throw ServerException(

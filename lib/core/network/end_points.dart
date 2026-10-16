@@ -6,7 +6,7 @@ class EndPoints {
   /// Or read locally from .env (ignored by git)
   static const String baseUrl = String.fromEnvironment(
     'BASE_URL',
-    defaultValue: 'http://localhost:8080',
+    defaultValue: 'http://130.110.99.157:8080',
   );
 
   /// Network timeout configurations
@@ -90,5 +90,6 @@ class ApiKeys {
   static const String termsVersion = 'termsVersion';
   static const String accepted = 'accepted';
   static const String trackType = 'trackType';
+  static const String track = 'track';
   static const String file = 'File';
 }

@@ -20,6 +20,20 @@ class AppTextStyles {
     color: AppColors.textPrimary,
   );
 
+  static const TextStyle h3 = TextStyle(
+    fontFamily: 'Inter',
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    color: AppColors.textPrimary,
+  );
+
+  static const TextStyle caption = TextStyle(
+    fontFamily: 'Inter',
+    fontSize: 12,
+    fontWeight: FontWeight.normal,
+    color: AppColors.textSecondary,
+  );
+
   static const TextStyle body = TextStyle(
     fontFamily: 'Inter',
     fontSize: 16,

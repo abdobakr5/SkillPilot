@@ -9,6 +9,8 @@
 .history
 .svn/
 migrate_working_dir/
+.env
+.env.*
 
 # IntelliJ related
 *.iml
@@ -71,21 +73,6 @@ app.*.map.json
 **/ios/ServiceDefinitions.json
 **/ios/Runner/GeneratedPluginRegistrant.h
 **/ios/Runner/GeneratedPluginRegistrant.m
-
-# ==============================================================================
-# Security & Environment Variables (Never commit keys, tokens, or IP addresses)
-# ==============================================================================
-.env
-.env.*
-!.env.example
-*.env
-env.json
-secrets.dart
-key.properties
-*.jks
-*.keystore
-google-services.json
-GoogleService-Info.plist
 
 # Exceptions to keep essential files
 !.gitkeep

@@ -22,7 +22,9 @@ class AppColors {
 
   // Neutral & feedback
   static const Color success = Color(0xFF22C55E);
+  static const Color accentSuccess = Color(0xFF22C55E);
   static const Color error = Color(0xFFF43F5E);
+  static const Color accentError = Color(0xFFF43F5E);
   static const Color warning = Color(0xFFFBBF24);
   static const Color info = Color(0xFF38BDF8);
   static const Color divider = Color(0xFF30363D);
